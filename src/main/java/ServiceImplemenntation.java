@@ -77,4 +77,33 @@ public class ServiceImplemenntation implements ServiceInterface{
         }
         return sts;
     }
+
+    @Override
+    public List<Order> displayAllOrder(String name) {
+        List<Order> orderList = new ArrayList<>();
+
+        try {
+            CallableStatement cstmt = conn.prepareCall("{CALL displayAllOrder(?, ?)}");
+            cstmt.setString(1,name);
+            cstmt.registerOutParameter(2, Types.DOUBLE);
+            cstmt.execute();
+            ResultSet rs = cstmt.getResultSet();
+            while (rs.next()) {
+                String cName = rs.getString(2);
+                int productId = rs.getInt(3);
+                int orderQty = rs.getInt(4);
+                double totalAmount = rs.getDouble(5);
+                Order order = new Order(cName,productId,orderQty,totalAmount);
+                orderList.add(order);
+            }
+            double totalBill = cstmt.getDouble(2);
+            System.out.println("Total Bill: " + totalBill);
+            System.out.println("=================================================================================================");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return orderList;
+
+    }
 }

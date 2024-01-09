@@ -8,4 +8,6 @@ public interface ServiceInterface {
     int updateProductProduct(Product product);
 
     boolean placeOrder(Order order);
+
+    List<Order> displayAllOrder(String name);
 }

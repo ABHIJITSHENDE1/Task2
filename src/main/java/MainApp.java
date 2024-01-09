@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ public class MainApp {
         System.out.println("3:Update Product");
         System.out.println("4:Place Order");
         System.out.println("5:Display Order");
+        System.out.println("6:Exit");
         int ch = in.nextInt();
         switch (ch){
             case 1:
@@ -26,11 +28,29 @@ public class MainApp {
                 placeOrder();
                 break;
             case 5:
+                displayAllOrder();
+                break;
+            case 6:
+                System.exit(0);
                 break;
             default:
                 System.out.println("Invalid Option!!");
         }
 
+        main(args);
+
+    }
+
+    private static void displayAllOrder() {
+        System.out.println("Enter Name");
+        String name = in.next();
+        List<Order> orderList = serviceInterface.displayAllOrder(name);
+        for(Order o : orderList){
+            System.out.print(o.getCustName()+"\t");
+            System.out.print(o.getProduct_id()+"\t");
+            System.out.print(o.getOrder_qty()+"\t");
+            System.out.print(o.getTotal_amt()+"\t");
+        }
     }
 
     private static void placeOrder() {
